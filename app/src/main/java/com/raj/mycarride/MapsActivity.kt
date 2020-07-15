@@ -20,6 +20,10 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
 
+    val mapViewModel  by lazy {
+        ViewModelProvider(this,viewModeFactory).get(MapsActivityViewModel::class.java)
+    }
+
     @Inject
     lateinit var viewModeFactory: ViewModelFactory
 
@@ -31,7 +35,6 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        var mapViewModel = ViewModelProvider(this,viewModeFactory).get(MapsActivityViewModel::class.java)
 
     }
 

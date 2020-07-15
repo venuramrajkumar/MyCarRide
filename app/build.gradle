@@ -12,6 +12,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    dataBinding{
+        enabled true
+    }
+
     defaultConfig {
         applicationId "com.raj.mycarride"
         minSdkVersion 21
@@ -126,5 +130,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     // optional - Test helpers for LiveData
     testImplementation "androidx.arch.core:core-testing:2.1.0"
+
+    implementation project(':databindinglibrary')
 
 }

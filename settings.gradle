@@ -1,3 +1,4 @@
+include ':databindinglibrary'
 include ':simulator'
 include ':app'
 rootProject.name = "MyCarRide"
