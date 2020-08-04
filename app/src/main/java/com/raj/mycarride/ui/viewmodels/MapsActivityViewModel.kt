@@ -5,4 +5,7 @@ import javax.inject.Inject
 
 class MapsActivityViewModel @Inject constructor() : ViewModel() {
 
+    fun getString() : String {
+        return "RAJKUMAR"
+    }
 }

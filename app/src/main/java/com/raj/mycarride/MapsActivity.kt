@@ -1,6 +1,7 @@
 package com.raj.mycarride
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
@@ -34,6 +35,8 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        Toast.makeText(this,mapViewModel.getString(),Toast.LENGTH_SHORT).show()
 
 
     }
