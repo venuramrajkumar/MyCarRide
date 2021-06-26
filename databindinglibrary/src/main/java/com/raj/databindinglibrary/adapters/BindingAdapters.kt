@@ -5,8 +5,7 @@ import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.databinding.BindingAdapter
-import androidx.lifecycle.LiveData
-import com.raj.databindinglibrary.Popularity
+import com.raj.databindinglibrary.utils.Popularity
 
 @BindingAdapter("app:setPopularIcon")
  fun setPopularIcon(imageView: ImageView, popularity : Popularity) {

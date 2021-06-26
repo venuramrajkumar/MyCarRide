@@ -1,10 +1,10 @@
-package com.raj.databindinglibrary
+package com.raj.databindinglibrary.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import kotlin.reflect.KTypeProjection.Companion.STAR
+import com.raj.databindinglibrary.utils.Popularity
 
 class DataViewModel : ViewModel() {
 

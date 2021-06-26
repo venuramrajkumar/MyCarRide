@@ -1,16 +1,19 @@
-package com.raj.databindinglibrary
+package com.raj.databindinglibrary.views
 
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
+import com.raj.databindinglibrary.viewmodels.DataViewModel
+import com.raj.databindinglibrary.R
 import com.raj.databindinglibrary.databinding.FragmentFourBinding
-import kotlinx.android.synthetic.main.fragment_four.*
+
 
 class FourthFragment : Fragment() {
 
@@ -45,7 +48,7 @@ class FourthFragment : Fragment() {
 //            Navigation.createNavigateOnClickListener(R.id.firstFragment)
 //        )
         //Navigation with Transition effects using options
-        btn_forthFragment.setOnClickListener {
+        view.findViewById<Button>(R.id.btn_forthFragment).setOnClickListener {
             findNavController().navigate(R.id.secondFragment,null,options)
         }
     }

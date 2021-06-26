@@ -1,18 +1,19 @@
-package com.raj.databindinglibrary
+package com.raj.databindinglibrary.views
 
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import androidx.navigation.navOptions
-import com.raj.databindinglibrary.databinding.FragmentFourBinding
-import com.raj.databindinglibrary.databinding.FragmentFirstBinding
+import com.raj.databindinglibrary.viewmodels.DataViewModel
+import com.raj.databindinglibrary.R
 import com.raj.databindinglibrary.databinding.FragmentThirdBinding
-import kotlinx.android.synthetic.main.fragment_third.*
+
 
 class ThirdFragment : Fragment() {
 
@@ -34,7 +35,8 @@ class ThirdFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        plain_name.text =  arguments?.getString("myarg")
-        btn_thirdFragment.setOnClickListener (Navigation.createNavigateOnClickListener(R.id.dataBindingFragment))
+//        view.findViewById<Button>(R.id.btn_forthFragment).setText(arguments?.getString("myarg"))
+
+        view.findViewById<Button>(R.id.btn_thirdFragment).setOnClickListener (Navigation.createNavigateOnClickListener(R.id.dataBindingFragment))
     }
 }

@@ -1,17 +1,20 @@
-package com.raj.databindinglibrary
+package com.raj.databindinglibrary.views
 
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
+import com.raj.databindinglibrary.viewmodels.DataViewModel
+import com.raj.databindinglibrary.R
 import com.raj.databindinglibrary.databinding.FragmentSecondBinding
-import kotlinx.android.synthetic.main.fragment_second.*
+
 
 class SecondFragment : Fragment() {
 
@@ -42,9 +45,9 @@ class SecondFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        Toast.makeText(activity,"Bundle data from first fragment " +safeVarargs.MyIntData,Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity,"Bundle data from first fragment " ,Toast.LENGTH_SHORT).show()
 
-        btn_secondFragment.setOnClickListener (
+        view.findViewById<Button>(R.id.btn_secondFragment).setOnClickListener (
             Navigation.createNavigateOnClickListener(R.id.thirdFragment,null)
             )
     }

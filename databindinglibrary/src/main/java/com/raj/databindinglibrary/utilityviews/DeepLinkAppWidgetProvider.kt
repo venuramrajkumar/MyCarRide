@@ -1,4 +1,4 @@
-package com.raj.databindinglibrary
+package com.raj.databindinglibrary.utilityviews
 
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import android.widget.RemoteViews
 import androidx.navigation.NavDeepLinkBuilder
+import com.raj.databindinglibrary.R
 
 class DeepLinkAppWidgetProvider : AppWidgetProvider() {
 
@@ -14,7 +15,7 @@ class DeepLinkAppWidgetProvider : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager?,
         appWidgetIds: IntArray?
     ) {
-        val remoteViews =  RemoteViews(context?.packageName,R.layout.deep_link_appwidget)
+        val remoteViews =  RemoteViews(context?.packageName, R.layout.deep_link_appwidget)
 
         val args = Bundle()
         args.putString("myarg", "From Widget")

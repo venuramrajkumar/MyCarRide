@@ -1,23 +1,18 @@
-package com.raj.databindinglibrary
+package com.raj.databindinglibrary.views
 
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.os.bundleOf
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import com.raj.databindinglibrary.databinding.FragmentFourBinding
+import com.raj.databindinglibrary.R
+import com.raj.databindinglibrary.viewmodels.DataViewModel
 import com.raj.databindinglibrary.databinding.FragmentFirstBinding
-import kotlinx.android.synthetic.main.fragment_first.*
-import kotlinx.android.synthetic.main.fragment_second.*
+
 
 class FirstFragment : Fragment() {
 
@@ -45,7 +40,7 @@ class FirstFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 //        TO navigate to the destination defined in graph
-        plain_lastname.setOnClickListener {
+        view.findViewById<Button>(R.id.plain_lastname).setOnClickListener {
 
             val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment()
             findNavController().navigate(action)

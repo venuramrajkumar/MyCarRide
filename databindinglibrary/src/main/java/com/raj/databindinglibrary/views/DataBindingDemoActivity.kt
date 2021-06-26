@@ -1,4 +1,4 @@
-package com.raj.databindinglibrary
+package com.raj.databindinglibrary.views
 
 import android.os.Bundle
 import android.view.Menu
@@ -11,10 +11,9 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
 
 import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.navigation_activity.*
+import com.raj.databindinglibrary.R
 import kotlinx.android.synthetic.main.navigation_activity.my_nav_host_fragment
 import kotlinx.android.synthetic.main.navigation_activity.toolbar
-import kotlinx.android.synthetic.main.navigation_activity_navigationview.*
 
 class DataBindingDemoActivity : AppCompatActivity() {
 
@@ -43,7 +42,7 @@ class DataBindingDemoActivity : AppCompatActivity() {
 
         //NavigationUI with DrawableLayout
         val drawerlayout : DrawerLayout? = findViewById(R.id.drawer_layout)
-        appBarConfiguration = AppBarConfiguration(setOf(R.id.firstFragment,R.id.secondFragment),drawerlayout)
+        appBarConfiguration = AppBarConfiguration(setOf(R.id.firstFragment, R.id.secondFragment),drawerlayout)
         setSupportActionBar(toolbar)
         setupNavigationMenu(navController)
         setupActionBar(navController,appBarConfiguration)
