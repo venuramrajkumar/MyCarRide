@@ -1,6 +1,6 @@
 package com.raj.mycarride.di.modules
 
-import com.raj.mycarride.MapsActivity
+import com.raj.mycarride.ui.activities.MapsActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
