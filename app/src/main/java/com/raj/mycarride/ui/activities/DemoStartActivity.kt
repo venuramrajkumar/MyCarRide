@@ -15,7 +15,7 @@ class DemoStartActivity : AppCompatActivity() {
 
     private fun setlisteners() {
         location.setOnClickListener {
-            var intent : Intent = Intent(this, LocationActivity::class.java)
+            var intent : Intent = Intent(this, MapViewActivity::class.java)
             startActivity(intent)
 
         }

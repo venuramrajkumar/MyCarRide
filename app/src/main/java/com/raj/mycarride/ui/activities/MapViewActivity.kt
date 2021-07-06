@@ -10,10 +10,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.*
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.OnFailureListener
@@ -24,7 +21,7 @@ import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_location.*
 import javax.inject.Inject
 
-class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
+class MapViewActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
 
@@ -41,19 +38,24 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
     @Inject
     lateinit var viewModeFactory: ViewModelFactory
 
+    lateinit var mapView : MapView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_maps)
+        setContentView(R.layout.activity_mapview)
+        var bundle : Bundle? = null
+        if (savedInstanceState != null) {
+            bundle = savedInstanceState.getBundle(resources.getString(R.string.google_maps_key))
+        }
+        mapView  = findViewById(R.id.mapView)
+        mapView.onCreate(bundle)
 
         initStuff()
         startGettingLocation()
 
         Toast.makeText(this,mapViewModel.getString(),Toast.LENGTH_SHORT).show()
 
-
-
     }
-
 
     private fun initStuff() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
@@ -76,6 +78,7 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
                 Log.i("RAJKUMAR","Location result is available");
             }
         }
+
     }
 
     private fun stopLocationRequests() {
@@ -94,9 +97,8 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
             fusedLocationProviderClient.lastLocation.addOnSuccessListener {
                 currentlocation = it
                 // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-                val mapFragment = supportFragmentManager
-                    .findFragmentById(R.id.map) as SupportMapFragment
-                mapFragment.getMapAsync(this)
+
+                mapView.getMapAsync(this)
             }
 
             fusedLocationProviderClient.lastLocation.addOnFailureListener(object:
@@ -109,7 +111,7 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
 
         } else {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-                Toast.makeText(this@MapsActivity, "Permission needed", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@MapViewActivity, "Permission needed", Toast.LENGTH_LONG).show()
             } else {
                 ActivityCompat.requestPermissions(this,
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION),LOCATION_PERMISSION)
@@ -118,6 +120,36 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
 
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+
+        var mapViewBundle = outState.getBundle(resources.getString(R.string.google_maps_key))
+        if (mapViewBundle == null) {
+            mapViewBundle = Bundle()
+            outState.putBundle(resources.getString(R.string.google_maps_key),mapViewBundle)
+        }
+
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mapView.onStart()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mapView.onStop()
+    }
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -129,6 +161,7 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
 
     override fun onDestroy() {
         super.onDestroy()
+        mapView.onDestroy()
         stopLocationRequests()
     }
 
