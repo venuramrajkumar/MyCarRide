@@ -2,6 +2,8 @@ package com.raj.mycarride.ui.activities
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
@@ -18,27 +20,34 @@ import com.raj.mycarride.R
 import com.raj.mycarride.di.modules.ViewModelFactory
 import com.raj.mycarride.ui.viewmodels.MapsActivityViewModel
 import dagger.android.support.DaggerAppCompatActivity
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_location.*
+import kotlinx.android.synthetic.main.activity_mapview.*
+import java.util.*
 import javax.inject.Inject
 
 class MapViewActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
+    private  var compositeDisposable: CompositeDisposable = CompositeDisposable()
 
-    val mapViewModel  by lazy {
+    private val mapViewModel  by lazy {
         ViewModelProvider(this,viewModeFactory).get(MapsActivityViewModel::class.java)
     }
 
-    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    lateinit var locationRequest: LocationRequest
-    lateinit var currentlocation: Location
-    lateinit var locationCallback: LocationCallback
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var locationRequest: LocationRequest
+    private lateinit var currentlocation: Location
+    private lateinit var locationCallback: LocationCallback
     private val LOCATION_PERMISSION = 100
 
     @Inject
     lateinit var viewModeFactory: ViewModelFactory
 
-    lateinit var mapView : MapView
+    private lateinit var mapView : MapView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,8 +69,8 @@ class MapViewActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
     private fun initStuff() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         locationRequest = LocationRequest.create()
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-        locationRequest.setInterval(5000)
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest.interval = 5000
         locationCallback = object : LocationCallback(){
             override fun onLocationAvailability(locationAvailable: LocationAvailability?) {
                 super.onLocationAvailability(locationAvailable)
@@ -75,10 +84,94 @@ class MapViewActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
 
             override fun onLocationResult(p0: LocationResult?) {
                 super.onLocationResult(p0)
-                Log.i("RAJKUMAR","Location result is available");
+                Log.i("RAJKUMAR","Location result is available")
             }
         }
 
+        buttonGetAddress.setOnClickListener {
+            getAddress()
+        }
+
+    }
+
+    private fun getAddress() {
+        if (!Geocoder.isPresent()) {
+            Toast.makeText(this,"Geocoder not present",Toast.LENGTH_SHORT).show()
+        } else {
+            val geocoder : Geocoder = Geocoder(this, Locale.getDefault())
+            var addressList : List<Address>? = null
+
+            try {
+                Log.i("RAJKUMAR 1", Thread.currentThread().id.toString())
+               val disposable =  getGeoCoderLocation(geocoder)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe (
+                        {
+                            addressList = it
+                            updateUI(addressList)
+                        },
+                        {
+                            textViewAddress.text = "Could not get address"
+                            textViewAddress.setTextColor( resources.getColor(android.R.color.holo_red_dark,this.theme))
+                        },
+                        {
+                            Toast.makeText(this,"OnComplete",Toast.LENGTH_SHORT).show()
+                        }
+                            )
+                compositeDisposable.add(disposable)
+
+
+
+            } catch (e:Exception) {
+                textViewAddress.text = "Could not get address"
+                textViewAddress.setTextColor( resources.getColor(android.R.color.holo_red_dark,this.theme))
+            }
+
+
+        }
+
+    }
+
+    private fun updateUI(addressList: List<Address>?) {
+        if (addressList == null || addressList!!.isEmpty()) {
+            textViewAddress.setTextColor(
+                resources.getColor(
+                    android.R.color.holo_red_dark,
+                    this.theme
+                )
+            )
+        } else {
+            val addressBuilder = StringBuilder()
+            val address = addressList!![0]
+            for (i in 0..address.maxAddressLineIndex) {
+                addressBuilder.append(
+                    address.getAddressLine(i).trimIndent()
+                )
+            }
+            val finalAddress = addressBuilder.toString()
+            textViewAddress.text = finalAddress
+            textViewAddress.setTextColor(
+                resources.getColor(
+                    android.R.color.holo_blue_bright,
+                    this.theme
+                )
+            )
+            Log.i("RAJKUMAR 3", Thread.currentThread().id.toString())
+        }
+    }
+
+    private fun getGeoCoderLocation(geocoder: Geocoder) : Observable<List<Address>?> {
+        return Observable.create { emitter ->
+            try {
+                Log.i("RAJKUMAR", Thread.currentThread().id.toString())
+               emitter.onNext( geocoder.getFromLocation(currentlocation.latitude,currentlocation.longitude,1))
+                emitter.onComplete()
+
+        } catch (e:Exception) {
+            emitter.onError(e)
+        }
+        }
     }
 
     private fun stopLocationRequests() {
@@ -161,6 +254,7 @@ class MapViewActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
 
     override fun onDestroy() {
         super.onDestroy()
+        compositeDisposable.dispose()
         mapView.onDestroy()
         stopLocationRequests()
     }
