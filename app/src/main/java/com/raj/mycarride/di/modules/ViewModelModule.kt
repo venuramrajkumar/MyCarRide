@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.raj.mycarride.di.qualifier.ViewModelKey
 import com.raj.mycarride.ui.viewmodels.MapsActivityViewModel
+import com.raj.mycarride.ui.viewmodels.OrderBeerOnlineViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -18,5 +19,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(MapsActivityViewModel::class)
     abstract fun bindViewModel(viewModel: MapsActivityViewModel) : ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(OrderBeerOnlineViewModel::class)
+    abstract fun bindBeerViewModel(viewModel: OrderBeerOnlineViewModel) : ViewModel
+
 
 }

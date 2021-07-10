@@ -1,4 +1,4 @@
-package com.raj.mycarride.ui.activities
+package com.raj.mycarride.ui.activities.location
 
 import android.Manifest
 import android.content.pm.PackageManager
