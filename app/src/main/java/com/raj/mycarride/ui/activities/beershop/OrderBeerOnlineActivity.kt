@@ -10,6 +10,7 @@ import com.raj.mycarride.R
 import com.raj.mycarride.databinding.ActivityOrderBeerBinding
 import com.raj.mycarride.di.modules.ViewModelFactory
 import com.raj.mycarride.storage.BeerInfo
+import com.raj.mycarride.ui.databinding.OrderBeerOnlineBindingAdapter
 import com.raj.mycarride.ui.viewmodels.OrderBeerOnlineViewModel
 
 import javax.inject.Inject
@@ -29,6 +30,9 @@ class OrderBeerOnlineActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_order_beer)
+        binding.viewModel = beerOnlineViewModel
+        binding.lifecycleOwner = this
         initObserver()
         beerOnlineViewModel.initBeerInfo()
         beerOnlineViewModel.getBeerLiveData().observe(this,beerInfoObserver)
@@ -37,15 +41,9 @@ class OrderBeerOnlineActivity : BaseActivity() {
     private fun initObserver() {
         showSpinner()
         beerInfoObserver = Observer {
-
             dismissSpinner()
-
-            binding = DataBindingUtil.setContentView(this, R.layout.activity_order_beer)
-            binding.beerInfo = it!!
+            binding.viewModel?.beerInfo?.value = it
             binding.recyclerView.adapter?.notifyDataSetChanged()
-
-
-
             /*
             *   when (it!!.mStatus) {
                 Resource.Status.SUCCESS -> {
