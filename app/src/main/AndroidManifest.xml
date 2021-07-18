@@ -32,9 +32,12 @@
             android:label="@string/title_activity_maps">
         </activity>
 
-        <activity android:name=".ui.activities.location.LocationActivity"></activity>
+        <activity android:name=".ui.activities.location.LocationActivity"/>
 
         <activity android:name=".ui.activities.DemoStartActivity">
+        </activity>
+        <activity android:name="com.raj.mycarride.ui.activities.beershop.OrderBeerOnlineActivity" />
+        <activity android:name=".mvp.ui.MapsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,7 +45,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.raj.mycarride.ui.activities.beershop.OrderBeerOnlineActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
