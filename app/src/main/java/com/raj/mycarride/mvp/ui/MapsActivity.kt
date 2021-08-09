@@ -29,10 +29,16 @@ import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.raj.mycarride.R
 import com.raj.mycarride.mvp.data.NetworkService
+import com.raj.mycarride.rest.utilretrofit.APIServiceProvider
+import com.raj.mycarride.rest.utilretrofit.UserResponse
 import com.raj.mycarride.ui.utils.MapUtils
 import com.raj.mycarride.ui.utils.PermissionUtils
 import com.raj.mycarride.ui.utils.ViewUtils
 import kotlinx.android.synthetic.main.activity_maps.*
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class MapsActivity : AppCompatActivity(), MapsView, OnMapReadyCallback {
@@ -63,7 +69,28 @@ class MapsActivity : AppCompatActivity(), MapsView, OnMapReadyCallback {
         presenter = MapsPresenter(NetworkService())
         presenter.onAttach(this)
         setUpClickListener()
+
+        //To Initiate Retrofit service call
+        initRestCall()
     }
+
+    private fun initRestCall() {
+        var apiServiceProvider  = APIServiceProvider.getApiServiceProvider(
+            "https://gorest.co.in/public/v1/users/",
+        5000,5000,HttpLoggingInterceptor.Level.BODY)
+
+        apiServiceProvider?.getUserData()?.enqueue( object : Callback<UserResponse>{
+            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+                Log.d("MapsActivity", response.body().toString())
+            }
+
+            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                Log.d("MapsActivity", t.localizedMessage.toString())
+            }
+
+        })
+    }
+
     private fun setUpClickListener() {
         pickUpTextView.setOnClickListener {
             launchLocationAutoCompleteActivity(PICKUP_REQUEST_CODE)
