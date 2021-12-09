@@ -152,14 +152,14 @@ class MapsActivity : AppCompatActivity(), MapsView, OnMapReadyCallback {
 
 
     private fun moveCamera(latLng: LatLng?) {
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng!!))
     }
 
     private fun animateCamera(latLng: LatLng?) {
         googleMap.animateCamera(
             CameraUpdateFactory.newCameraPosition(
                 CameraPosition.Builder().target(
-                    latLng
+                    latLng!!
                 ).zoom(15.5f).build()
             )
         )
@@ -170,7 +170,7 @@ class MapsActivity : AppCompatActivity(), MapsView, OnMapReadyCallback {
         return googleMap.addMarker(
             MarkerOptions().position(latLng).flat(true)
                 .icon(BitmapDescriptorFactory.fromBitmap(MapUtils.getCarBitmap(this)))
-        )
+        )!!
     }
 
     private fun enableMyLocationOnMap() {

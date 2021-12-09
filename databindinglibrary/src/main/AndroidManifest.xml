@@ -6,12 +6,12 @@
         android:allowBackup="true"
         >
         <activity
-            android:name=".views.DataBindingDemoActivity">
+            android:name=".views.DataBindingDemoActivity" android:exported="true" >
 
         <nav-graph android:value="@navigation/mobile_navigation"/>
         </activity>
 
-        <receiver android:name="com.raj.databindinglibrary.utilityviews.DeepLinkAppWidgetProvider">
+        <receiver android:name="com.raj.databindinglibrary.utilityviews.DeepLinkAppWidgetProvider" android:exported="true" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

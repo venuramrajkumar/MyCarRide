@@ -5,14 +5,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.raj.mycarride.R
 import com.raj.mycarride.databinding.ActivityOrderBeerBinding
-import com.raj.mycarride.di.modules.ViewModelFactory
 import com.raj.mycarride.storage.BeerInfo
-import com.raj.mycarride.ui.databinding.OrderBeerOnlineBindingAdapter
 import com.raj.mycarride.ui.viewmodels.OrderBeerOnlineViewModel
-
 import javax.inject.Inject
 
 class OrderBeerOnlineActivity : BaseActivity() {
@@ -73,7 +69,7 @@ class OrderBeerOnlineActivity : BaseActivity() {
     }
 
     override fun getViewModel(): ViewModel {
-        beerOnlineViewModel = ViewModelProviders.of(this, viewModelFactory).get(OrderBeerOnlineViewModel::class.java)
+        beerOnlineViewModel = ViewModelProvider(this, viewModelFactory).get(OrderBeerOnlineViewModel::class.java)
         return beerOnlineViewModel
     }
 
