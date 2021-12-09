@@ -19,4 +19,13 @@ interface AppComponent : AndroidInjector<MyCarRideApp>{
     interface Factory{
         fun create(@BindsInstance applicationContext: Context): AppComponent
     }
+
+    /*@Component.Builder
+    interface Builder {
+
+        @BindsInstance
+        fun takeThisDependency(repo : OrderBeerRepo) : Builder
+
+        fun build() : AppComponent
+    }*/
 }

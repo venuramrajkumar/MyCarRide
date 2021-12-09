@@ -19,7 +19,9 @@ class MyCarRideApp : DaggerApplication() {
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+
         return DaggerAppComponent.factory().create(this)
+        //DaggerAppComponent.factory().takeThisDependency(OrderBeerRepo())
     }
 
 }

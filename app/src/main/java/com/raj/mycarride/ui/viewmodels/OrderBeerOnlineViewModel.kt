@@ -10,8 +10,6 @@ import javax.inject.Inject
 
 class OrderBeerOnlineViewModel  @Inject constructor() : ViewModel(){
     @Inject
-
-
     lateinit var orderBeerRepo : OrderBeerRepo
 
     var beerInfo: MutableLiveData<List<BeerInfo>> = MutableLiveData(arrayListOf(BeerInfo("Abv","IBU",111,"RAM","Style",1.0f)))

@@ -36,6 +36,11 @@ class OrderBeerOnlineActivity : BaseActivity() {
         initObserver()
         beerOnlineViewModel.initBeerInfo()
         beerOnlineViewModel.getBeerLiveData().observe(this,beerInfoObserver)
+
+
+        /*beerOnlineViewModel.getBeerLiveData().observe(this) {
+
+        }*/
     }
 
     private fun initObserver() {
